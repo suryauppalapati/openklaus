@@ -1,6 +1,7 @@
 import express from "express";
-import agent from "./agent.ts";
+import openKlausAgent from "./agent.ts";
 import { SYSTEM_PROMPT } from "./prompts/index.ts";
+import { startTelegramBot } from "./integrations/telegram.ts";
 
 const app = express();
 app.use(express.json());
@@ -21,7 +22,7 @@ app.post("/message", async (req, res) => {
         const messages = conversations.get(conversationId)!;
         messages.push({ role: "user", content: message });
 
-        const response = await agent(messages);
+        const response = await openKlausAgent(messages);
 
         res.json({ response, conversationId });
     } catch (error: any) {
@@ -33,3 +34,6 @@ app.post("/message", async (req, res) => {
 app.listen(3000, () => {
     console.log("Server started on port 3000");
 });
+
+// Start Telegram bot (if token is configured)
+startTelegramBot();

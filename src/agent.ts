@@ -4,10 +4,10 @@ import { ResponseSchema } from "./schema/response.ts";
 import { toolsDefinitions } from "./tools/schemas.ts";
 import { functions } from "./tools/functions.ts";
 
-const agent = async (messages: any[]) => {
+const openKlausAgent = async (messages: any[]) => {
     while (true) {
         const response = await openai.responses.parse({
-            model: "gpt-5.1",
+            model: "gpt-4.1",
             tools: toolsDefinitions,
             input: messages,
             text: {
@@ -46,4 +46,4 @@ const agent = async (messages: any[]) => {
     }
 }
 
-export default agent;
+export default openKlausAgent;
